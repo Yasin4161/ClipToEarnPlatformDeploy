@@ -1,0 +1,165 @@
+{% extends "base.html" %}
+
+{% block title %}Kayıt Ol - Klipper{% endblock %}
+
+{% block content %}
+<div class="min-h-[80vh] flex items-center justify-center px-4 py-12">
+    <div class="w-full max-w-lg">
+        <!-- Register Card -->
+        <div class="bg-white rounded-2xl shadow-soft p-8">
+            <!-- Header -->
+            <div class="text-center mb-8">
+                <div class="w-20 h-20 gradient-bg rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-user-plus text-white text-3xl"></i>
+                </div>
+                <h2 class="text-3xl font-bold text-gray-800">Hesap Oluşturun</h2>
+                <p class="text-gray-600 mt-2">Hemen ücretsiz başlayın</p>
+            </div>
+
+            <!-- Register Form -->
+            <form method="POST" class="space-y-6">
+                {{ form.hidden_tag() }}
+                
+                <!-- Two Column Layout for Name Fields -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- Username Field -->
+                    <div>
+                        <label for="username" class="block text-sm font-medium text-gray-700 mb-2">
+                            <i class="fas fa-at mr-1"></i>Kullanıcı Adı
+                        </label>
+                        {{ form.username(class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all", placeholder="kullaniciadi") }}
+                        {% if form.username.errors %}
+                            <div class="text-red-500 text-sm mt-1">
+                                {% for error in form.username.errors %}
+                                    <p>{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Full Name Field -->
+                    <div>
+                        <label for="full_name" class="block text-sm font-medium text-gray-700 mb-2">
+                            <i class="fas fa-user mr-1"></i>Ad Soyad
+                        </label>
+                        {{ form.full_name(class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all", placeholder="Ad Soyad") }}
+                        {% if form.full_name.errors %}
+                            <div class="text-red-500 text-sm mt-1">
+                                {% for error in form.full_name.errors %}
+                                    <p>{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Email Field -->
+                <div>
+                    <label for="email" class="block text-sm font-medium text-gray-700 mb-2">
+                        <i class="fas fa-envelope mr-1"></i>E-posta Adresi
+                    </label>
+                    {{ form.email(class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all", placeholder="ornek@email.com") }}
+                    {% if form.email.errors %}
+                        <div class="text-red-500 text-sm mt-1">
+                            {% for error in form.email.errors %}
+                                <p>{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <!-- IBAN Field -->
+                <div>
+                    <label for="iban" class="block text-sm font-medium text-gray-700 mb-2">
+                        <i class="fas fa-university mr-1"></i>IBAN (Ödeme için)
+                    </label>
+                    {{ form.iban(class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all", placeholder="TR00 0000 0000 0000 0000 0000 00") }}
+                    <p class="text-sm text-gray-500 mt-1">Kazançlarınızın yatırılacağı IBAN numarası</p>
+                    {% if form.iban.errors %}
+                        <div class="text-red-500 text-sm mt-1">
+                            {% for error in form.iban.errors %}
+                                <p>{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <!-- Password Fields -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label for="password" class="block text-sm font-medium text-gray-700 mb-2">
+                            <i class="fas fa-lock mr-1"></i>Şifre
+                        </label>
+                        {{ form.password(class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all", placeholder="••••••••") }}
+                        {% if form.password.errors %}
+                            <div class="text-red-500 text-sm mt-1">
+                                {% for error in form.password.errors %}
+                                    <p>{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div>
+                        <label for="confirm_password" class="block text-sm font-medium text-gray-700 mb-2">
+                            <i class="fas fa-lock mr-1"></i>Şifre Tekrar
+                        </label>
+                        {{ form.confirm_password(class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all", placeholder="••••••••") }}
+                        {% if form.confirm_password.errors %}
+                            <div class="text-red-500 text-sm mt-1">
+                                {% for error in form.confirm_password.errors %}
+                                    <p>{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- KVKK Consent -->
+                <div class="bg-gray-50 p-4 rounded-lg">
+                    <label class="flex items-start">
+                        {{ form.consent(class="mt-1 mr-3") }}
+                        <span class="text-sm text-gray-700">
+                            <a href="{{ url_for('privacy_policy') }}" target="_blank" class="text-primary hover:underline">Gizlilik Politikası</a>'nı 
+                            okudum ve kişisel verilerimin işlenmesini kabul ediyorum.
+                        </span>
+                    </label>
+                    {% if form.consent.errors %}
+                        <div class="text-red-500 text-sm mt-1">
+                            {% for error in form.consent.errors %}
+                                <p><i class="fas fa-exclamation-circle mr-1"></i>{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="w-full gradient-bg text-white py-3 rounded-lg font-semibold hover-scale transition-all">
+                    <i class="fas fa-user-plus mr-2"></i>Kayıt Ol
+                </button>
+            </form>
+
+            <!-- Login Link -->
+            <div class="text-center mt-6">
+                <p class="text-gray-600">
+                    Zaten hesabınız var mı? 
+                    <a href="{{ url_for('login') }}" class="text-primary font-semibold hover:underline">
+                        Giriş yapın
+                    </a>
+                </p>
+            </div>
+        </div>
+
+        <!-- Security Badge -->
+        <div class="mt-8 text-center">
+            <div class="inline-flex items-center space-x-2 text-sm text-gray-500">
+                <i class="fas fa-shield-alt"></i>
+                <span>256-bit şifreleme</span>
+                <span>•</span>
+                <i class="fas fa-lock"></i>
+                <span>KVKK uyumlu</span>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

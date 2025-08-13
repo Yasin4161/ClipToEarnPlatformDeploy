@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+
+{% block title %}Gizlilik Uyumluluğu - Admin Panel{% endblock %}
+
+{% block content %}
+<div class="mb-8">
+    <h1 class="text-2xl md:text-3xl font-bold text-twitch-text mb-2">
+        <i class="fas fa-shield-alt mr-3"></i>Gizlilik Uyumluluğu
+    </h1>
+    <p class="text-twitch-muted">KVKK/GDPR uyumluluk raporu ve kullanıcı hakları</p>
+</div>
+
+<div class="grid gap-6 md:grid-cols-2">
+    <!-- Privacy Stats -->
+    <div class="bg-twitch-secondary rounded-lg border border-twitch-accent p-6">
+        <h2 class="text-xl font-semibold text-twitch-text mb-4">
+            <i class="fas fa-chart-bar mr-2"></i>Gizlilik İstatistikleri
+        </h2>
+        
+        <div class="space-y-4">
+            <div class="flex justify-between items-center">
+                <span class="text-twitch-muted">Toplam Kullanıcı</span>
+                <span class="text-twitch-text font-semibold">{{ total_users }}</span>
+            </div>
+            <div class="flex justify-between items-center">
+                <span class="text-twitch-muted">Rıza Verenler</span>
+                <span class="text-green-400 font-semibold">{{ consented_users }}</span>
+            </div>
+            <div class="flex justify-between items-center">
+                <span class="text-twitch-muted">Şifreli IBAN</span>
+                <span class="text-twitch-purple font-semibold">{{ encrypted_ibans }}</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Compliance Checklist -->
+    <div class="bg-twitch-secondary rounded-lg border border-twitch-accent p-6">
+        <h2 class="text-xl font-semibold text-twitch-text mb-4">
+            <i class="fas fa-check-circle mr-2"></i>Uyumluluk Kontrol Listesi
+        </h2>
+        
+        <div class="space-y-3">
+            <div class="flex items-center">
+                <i class="fas fa-check text-green-400 mr-2"></i>
+                <span class="text-twitch-muted">Gizlilik Politikası Mevcut</span>
+            </div>
+            <div class="flex items-center">
+                <i class="fas fa-check text-green-400 mr-2"></i>
+                <span class="text-twitch-muted">Açık Rıza Alınıyor</span>
+            </div>
+            <div class="flex items-center">
+                <i class="fas fa-check text-green-400 mr-2"></i>
+                <span class="text-twitch-muted">IBAN Şifreleme Aktif</span>
+            </div>
+            <div class="flex items-center">
+                <i class="fas fa-check text-green-400 mr-2"></i>
+                <span class="text-twitch-muted">Rıza Kaydı Tutulması</span>
+            </div>
+            <div class="flex items-center">
+                <i class="fas fa-check text-yellow-400 mr-2"></i>
+                <span class="text-twitch-muted">HTTPS Zorlamalı (Deploy sonrası)</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- User Rights Section -->
+<div class="bg-twitch-secondary rounded-lg border border-twitch-accent p-6 mt-8">
+    <h2 class="text-xl font-semibold text-twitch-text mb-4">
+        <i class="fas fa-users mr-2"></i>Kullanıcı Hakları ve Talepler
+    </h2>
+    
+    <div class="bg-twitch-accent rounded-lg p-4">
+        <h3 class="text-lg font-medium text-twitch-text mb-3">Kullanıcı Talep Türleri</h3>
+        <div class="grid md:grid-cols-2 gap-4 text-sm">
+            <div>
+                <h4 class="font-medium text-twitch-text mb-2">Bilgi Talep Hakkı</h4>
+                <p class="text-twitch-muted">Kullanıcı hangi verilerinin işlendiğini öğrenebilir.</p>
+            </div>
+            <div>
+                <h4 class="font-medium text-twitch-text mb-2">Düzeltme Hakkı</h4>
+                <p class="text-twitch-muted">Yanlış veya eksik bilgilerin düzeltilmesini isteyebilir.</p>
+            </div>
+            <div>
+                <h4 class="font-medium text-twitch-text mb-2">Silme Hakkı</h4>
+                <p class="text-twitch-muted">Verilerinin silinmesini talep edebilir.</p>
+            </div>
+            <div>
+                <h4 class="font-medium text-twitch-text mb-2">Veri Taşınabilirliği</h4>
+                <p class="text-twitch-muted">Verilerini yapılandırılmış formatta alabilir.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Important Reminders -->
+<div class="bg-yellow-900 border border-yellow-700 rounded-lg p-6 mt-8">
+    <h2 class="text-xl font-semibold text-yellow-100 mb-4">
+        <i class="fas fa-exclamation-triangle mr-2"></i>Önemli Hatırlatmalar
+    </h2>
+    <div class="space-y-2 text-yellow-200">
+        <p><strong>Deploy Sonrası:</strong> HTTPS'yi zorlamalı hale getirin</p>
+        <p><strong>Encryption Key:</strong> ENCRYPTION_KEY environment variable'ını güvenli şekilde saklayın</p>
+        <p><strong>Backup:</strong> Şifrelenmiş verilerin yedeklerini düzenli olarak alın</p>
+        <p><strong>Kullanıcı Talepleri:</strong> Yasal süre (30 gün) içinde yanıtlayın</p>
+    </div>
+</div>
+{% endblock %}

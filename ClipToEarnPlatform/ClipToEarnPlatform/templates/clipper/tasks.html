@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+
+{% block title %}Görevler - Klipper{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <!-- Header -->
+    <div class="mb-8">
+        <h1 class="text-3xl font-bold text-gray-800">Aktif Görevler</h1>
+        <p class="text-gray-600 mt-2">Klip oluşturabileceğiniz görevleri keşfedin</p>
+    </div>
+
+    <!-- Filter Bar -->
+    <div class="bg-white rounded-xl shadow-soft p-4 mb-6">
+        <div class="flex flex-wrap gap-4 items-center">
+            <div class="flex-1 min-w-[200px]">
+                <div class="relative">
+                    <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                    <input type="text" placeholder="Görev ara..." class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                </div>
+            </div>
+            <div class="flex gap-2">
+                <button class="px-4 py-2 bg-primary text-white rounded-lg font-medium">
+                    <i class="fas fa-filter mr-2"></i>Tümü
+                </button>
+                <button class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg font-medium hover:bg-gray-200 transition-colors">
+                    En Yeni
+                </button>
+                <button class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg font-medium hover:bg-gray-200 transition-colors">
+                    En Yüksek Ödül
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tasks Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {% for task in tasks %}
+        <div class="bg-white rounded-xl shadow-soft overflow-hidden hover-scale">
+            <!-- Task Header -->
+            <div class="p-6">
+                <div class="flex justify-between items-start mb-3">
+                    <h3 class="text-xl font-semibold text-gray-800 flex-1 pr-2">{{ task.title }}</h3>
+                    {% if task.deadline %}
+                    <span class="text-sm text-red-600 whitespace-nowrap">
+                        <i class="fas fa-clock mr-1"></i>{{ (task.deadline - datetime.now()).days }} gün
+                    </span>
+                    {% endif %}
+                </div>
+
+                <p class="text-gray-600 mb-4 line-clamp-3">{{ task.description }}</p>
+
+                <!-- Reward Badge -->
+                <div class="inline-flex items-center bg-green-50 text-green-700 px-4 py-2 rounded-lg mb-4">
+                    <i class="fas fa-lira-sign mr-2"></i>
+                    <span class="font-semibold text-lg">₺{{ "%.2f"|format(task.reward_per_1k_views) }}</span>
+                    <span class="text-sm ml-1">/1K görüntüleme</span>
+                </div>
+
+                <!-- Task Stats -->
+                <div class="flex items-center justify-between text-sm text-gray-600">
+                    <span><i class="fas fa-video mr-1"></i>{{ task.clips.count() }} klip</span>
+                    <span><i class="fas fa-user mr-1"></i>{{ task.clips.filter_by(clipper_id=current_user.id).count() }} gönderim</span>
+                </div>
+            </div>
+
+            <!-- Action Button -->
+            <div class="bg-gray-50 px-6 py-4">
+                <a href="{{ url_for('submit_clip', task_id=task.id) }}" class="block w-full text-center gradient-bg text-white py-2 rounded-lg font-medium hover-scale">
+                    <i class="fas fa-upload mr-2"></i>Klip Gönder
+                </a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    {% if not tasks %}
+    <div class="bg-white rounded-xl shadow-soft p-16 text-center">
+        <div class="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
+            <i class="fas fa-tasks text-gray-400 text-4xl"></i>
+        </div>
+        <h3 class="text-2xl font-semibold text-gray-800 mb-2">Aktif görev bulunamadı</h3>
+        <p class="text-gray-600">Yeni görevler eklendiğinde burada görünecek</p>
+    </div>
+    {% endif %}
+</div>
+
+<style>
+.line-clamp-3 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+}
+</style>
+{% endblock %}

@@ -1,0 +1,178 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - Klipper{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <!-- Header -->
+    <div class="mb-8">
+        <h1 class="text-3xl font-bold text-gray-800">Hoş Geldin, {{ current_user.username }}!</h1>
+        <p class="text-gray-600 mt-2">Kazanç durumunuz ve performansınız</p>
+    </div>
+
+    <!-- Stats Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+        <!-- Total Clips -->
+        <div class="bg-white rounded-xl shadow-soft p-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm text-gray-600">Toplam Klip</p>
+                    <p class="text-2xl font-bold text-gray-800 mt-1">{{ stats.total_clips }}</p>
+                </div>
+                <div class="w-12 h-12 gradient-bg rounded-lg flex items-center justify-center">
+                    <i class="fas fa-video text-white text-xl"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Total Views -->
+        <div class="bg-white rounded-xl shadow-soft p-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm text-gray-600">Toplam Görüntüleme</p>
+                    <p class="text-2xl font-bold text-gray-800 mt-1">{{ "{:,}".format(stats.total_views) }}</p>
+                </div>
+                <div class="w-12 h-12 bg-blue-500 rounded-lg flex items-center justify-center">
+                    <i class="fas fa-eye text-white text-xl"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Total Earnings -->
+        <div class="bg-white rounded-xl shadow-soft p-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm text-gray-600">Toplam Kazanç</p>
+                    <p class="text-2xl font-bold text-gray-800 mt-1">₺{{ "%.2f"|format(stats.total_earnings) }}</p>
+                </div>
+                <div class="w-12 h-12 bg-green-500 rounded-lg flex items-center justify-center">
+                    <i class="fas fa-lira-sign text-white text-xl"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pending Payment -->
+        <div class="bg-white rounded-xl shadow-soft p-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm text-gray-600">Bekleyen Ödeme</p>
+                    <p class="text-2xl font-bold text-gray-800 mt-1">₺{{ "%.2f"|format(stats.unpaid_earnings) }}</p>
+                </div>
+                <div class="w-12 h-12 bg-yellow-500 rounded-lg flex items-center justify-center">
+                    <i class="fas fa-clock text-white text-xl"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Two Column Layout -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <!-- Recent Clips -->
+        <div class="bg-white rounded-xl shadow-soft p-6">
+            <h2 class="text-xl font-semibold text-gray-800 mb-4">
+                <i class="fas fa-history mr-2"></i>Son Kliplerim
+            </h2>
+            <div class="space-y-4">
+                {% for clip in recent_clips %}
+                <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                    <div class="flex-1">
+                        <p class="font-medium text-gray-800">{{ clip.task.title }}</p>
+                        <div class="flex items-center space-x-4 mt-1 text-sm text-gray-600">
+                            <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium
+                                {% if clip.platform == 'youtube' %}bg-red-100 text-red-800
+                                {% elif clip.platform == 'tiktok' %}bg-pink-100 text-pink-800
+                                {% else %}bg-purple-100 text-purple-800{% endif %}">
+                                <i class="fab fa-{{ clip.platform }} mr-1"></i>{{ clip.platform.title() }}
+                            </span>
+                            <span><i class="fas fa-eye mr-1"></i>{{ "{:,}".format(clip.view_count) }}</span>
+                            <span><i class="fas fa-lira-sign mr-1"></i>₺{{ "%.2f"|format(clip.earnings) }}</span>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
+                            {% if clip.status == 'pending' %}bg-yellow-100 text-yellow-800
+                            {% elif clip.status == 'approved' %}bg-green-100 text-green-800
+                            {% else %}bg-red-100 text-red-800{% endif %}">
+                            {% if clip.status == 'pending' %}
+                                <i class="fas fa-clock mr-1"></i>Beklemede
+                            {% elif clip.status == 'approved' %}
+                                <i class="fas fa-check mr-1"></i>Onaylandı
+                            {% else %}
+                                <i class="fas fa-times mr-1"></i>Reddedildi
+                            {% endif %}
+                        </span>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% if recent_clips %}
+            <a href="{{ url_for('my_clips') }}" class="block mt-4 text-center text-primary font-medium hover:underline">
+                Tüm Klipleri Görüntüle <i class="fas fa-arrow-right ml-1"></i>
+            </a>
+            {% else %}
+            <p class="text-center text-gray-500 py-8">Henüz klip göndermediniz</p>
+            {% endif %}
+        </div>
+
+        <!-- Recent Tasks -->
+        <div class="bg-white rounded-xl shadow-soft p-6">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl font-semibold text-gray-800">
+                    <i class="fas fa-tasks mr-2"></i>Yeni Görevler
+                </h2>
+                <a href="{{ url_for('clipper_tasks') }}" class="text-primary text-sm hover:underline">
+                    Tümü <i class="fas fa-arrow-right ml-1"></i>
+                </a>
+            </div>
+            <div class="space-y-4">
+                {% for task in recent_tasks %}
+                <div class="border border-gray-200 rounded-lg p-4 hover:border-primary transition-colors">
+                    <h3 class="font-medium text-gray-800 mb-2">{{ task.title }}</h3>
+                    <div class="flex items-center justify-between text-sm">
+                        <span class="text-gray-600">
+                            <i class="fas fa-lira-sign mr-1"></i>₺{{ "%.2f"|format(task.reward_per_1k_views) }}/1K
+                        </span>
+                        {% if task.deadline %}
+                        <span class="text-gray-600">
+                            <i class="fas fa-calendar-alt mr-1"></i>{{ task.deadline.strftime('%d.%m.%Y') }}
+                        </span>
+                        {% endif %}
+                    </div>
+                    <a href="{{ url_for('submit_clip', task_id=task.id) }}" class="mt-3 block text-center bg-primary text-white py-2 rounded-lg hover:bg-secondary transition-colors text-sm font-medium">
+                        Klip Gönder
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+            {% if not recent_tasks %}
+            <p class="text-center text-gray-500 py-8">Yeni görev bulunmuyor</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Profile Info -->
+    <div class="mt-8 bg-white rounded-xl shadow-soft p-6">
+        <h2 class="text-xl font-semibold text-gray-800 mb-4">
+            <i class="fas fa-user-circle mr-2"></i>Profil Bilgileri
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+                <p class="text-sm text-gray-600">Kullanıcı Adı</p>
+                <p class="font-medium text-gray-800">{{ current_user.username }}</p>
+            </div>
+            <div>
+                <p class="text-sm text-gray-600">E-posta</p>
+                <p class="font-medium text-gray-800">{{ current_user.email }}</p>
+            </div>
+            <div>
+                <p class="text-sm text-gray-600">Ad Soyad</p>
+                <p class="font-medium text-gray-800">{{ current_user.full_name or 'Belirtilmemiş' }}</p>
+            </div>
+            <div>
+                <p class="text-sm text-gray-600">IBAN</p>
+                <p class="font-medium text-gray-800">{{ '*' * 20 }}{{ current_user.iban[-4:] if current_user.iban else 'Belirtilmemiş' }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

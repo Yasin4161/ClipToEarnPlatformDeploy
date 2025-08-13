@@ -1,0 +1,174 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Dashboard - Klipper{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <!-- Header -->
+    <div class="mb-8">
+        <h1 class="text-3xl font-bold text-gray-800">Admin Dashboard</h1>
+        <p class="text-gray-600 mt-2">Platform istatistikleri ve yönetim merkezi</p>
+    </div>
+
+    <!-- Stats Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+        <!-- Total Tasks -->
+        <div class="bg-white rounded-xl shadow-soft p-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm text-gray-600">Toplam Görev</p>
+                    <p class="text-2xl font-bold text-gray-800 mt-1">{{ stats.total_tasks }}</p>
+                    <p class="text-sm text-green-600 mt-2">
+                        <i class="fas fa-check-circle mr-1"></i>{{ stats.active_tasks }} aktif
+                    </p>
+                </div>
+                <div class="w-12 h-12 gradient-bg rounded-lg flex items-center justify-center">
+                    <i class="fas fa-tasks text-white text-xl"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Total Clips -->
+        <div class="bg-white rounded-xl shadow-soft p-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm text-gray-600">Toplam Klip</p>
+                    <p class="text-2xl font-bold text-gray-800 mt-1">{{ stats.total_clips }}</p>
+                    <p class="text-sm text-yellow-600 mt-2">
+                        <i class="fas fa-clock mr-1"></i>{{ stats.pending_clips }} beklemede
+                    </p>
+                </div>
+                <div class="w-12 h-12 bg-purple-500 rounded-lg flex items-center justify-center">
+                    <i class="fas fa-video text-white text-xl"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Total Views -->
+        <div class="bg-white rounded-xl shadow-soft p-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm text-gray-600">Toplam Görüntüleme</p>
+                    <p class="text-2xl font-bold text-gray-800 mt-1">{{ "{:,}".format(stats.total_views) }}</p>
+                    <p class="text-sm text-blue-600 mt-2">
+                        <i class="fas fa-eye mr-1"></i>Tüm platformlar
+                    </p>
+                </div>
+                <div class="w-12 h-12 bg-blue-500 rounded-lg flex items-center justify-center">
+                    <i class="fas fa-eye text-white text-xl"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Total Earnings -->
+        <div class="bg-white rounded-xl shadow-soft p-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm text-gray-600">Toplam Kazanç</p>
+                    <p class="text-2xl font-bold text-gray-800 mt-1">₺{{ "%.2f"|format(stats.total_earnings) }}</p>
+                    <p class="text-sm text-red-600 mt-2">
+                        <i class="fas fa-exclamation-circle mr-1"></i>₺{{ "%.2f"|format(stats.unpaid_earnings) }} ödenmedi
+                    </p>
+                </div>
+                <div class="w-12 h-12 bg-green-500 rounded-lg flex items-center justify-center">
+                    <i class="fas fa-lira-sign text-white text-xl"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Activity -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <!-- Recent Submissions -->
+        <div class="bg-white rounded-xl shadow-soft p-6">
+            <h2 class="text-xl font-semibold text-gray-800 mb-4">
+                <i class="fas fa-clock mr-2"></i>Son Gönderimler
+            </h2>
+            <div class="space-y-4">
+                {% for clip in recent_clips %}
+                <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
+                            <i class="fas fa-user text-gray-600"></i>
+                        </div>
+                        <div>
+                            <p class="font-medium text-gray-800">{{ clip.clipper.username }}</p>
+                            <p class="text-sm text-gray-600">{{ clip.task.title[:30] }}...</p>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
+                            {% if clip.platform == 'youtube' %}bg-red-100 text-red-800
+                            {% elif clip.platform == 'tiktok' %}bg-pink-100 text-pink-800
+                            {% else %}bg-purple-100 text-purple-800{% endif %}">
+                            <i class="fab fa-{{ clip.platform }} mr-1"></i>{{ clip.platform.title() }}
+                        </span>
+                        <p class="text-sm text-gray-600 mt-1">{{ clip.created_at.strftime('%H:%M') }}</p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <a href="{{ url_for('admin_submissions') }}" class="block mt-4 text-center text-primary font-medium hover:underline">
+                Tümünü Görüntüle <i class="fas fa-arrow-right ml-1"></i>
+            </a>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="bg-white rounded-xl shadow-soft p-6">
+            <h2 class="text-xl font-semibold text-gray-800 mb-4">
+                <i class="fas fa-bolt mr-2"></i>Hızlı İşlemler
+            </h2>
+            <div class="space-y-3">
+                <a href="{{ url_for('create_task') }}" class="block w-full gradient-bg text-white py-3 px-4 rounded-lg hover-scale text-center font-medium">
+                    <i class="fas fa-plus-circle mr-2"></i>Yeni Görev Oluştur
+                </a>
+                <a href="{{ url_for('admin_submissions') }}" class="block w-full bg-purple-500 hover:bg-purple-600 text-white py-3 px-4 rounded-lg transition-colors text-center font-medium">
+                    <i class="fas fa-video mr-2"></i>Gönderileri İncele
+                </a>
+                <a href="{{ url_for('admin_users') }}" class="block w-full bg-blue-500 hover:bg-blue-600 text-white py-3 px-4 rounded-lg transition-colors text-center font-medium">
+                    <i class="fas fa-users mr-2"></i>Kullanıcıları Yönet
+                </a>
+                <a href="{{ url_for('admin_privacy_compliance') }}" class="block w-full bg-gray-700 hover:bg-gray-800 text-white py-3 px-4 rounded-lg transition-colors text-center font-medium">
+                    <i class="fas fa-shield-alt mr-2"></i>KVKK Uyumluluk
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Platform Distribution -->
+    <div class="mt-8 bg-white rounded-xl shadow-soft p-6">
+        <h2 class="text-xl font-semibold text-gray-800 mb-4">
+            <i class="fas fa-chart-pie mr-2"></i>Platform Dağılımı
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="bg-red-50 p-4 rounded-lg">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm text-gray-600">YouTube Shorts</p>
+                        <p class="text-2xl font-bold text-gray-800">{{ stats.youtube_clips }}</p>
+                    </div>
+                    <i class="fab fa-youtube text-red-500 text-3xl"></i>
+                </div>
+            </div>
+            <div class="bg-pink-50 p-4 rounded-lg">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm text-gray-600">TikTok</p>
+                        <p class="text-2xl font-bold text-gray-800">{{ stats.tiktok_clips }}</p>
+                    </div>
+                    <i class="fab fa-tiktok text-pink-500 text-3xl"></i>
+                </div>
+            </div>
+            <div class="bg-purple-50 p-4 rounded-lg">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm text-gray-600">Instagram Reels</p>
+                        <p class="text-2xl font-bold text-gray-800">{{ stats.instagram_clips }}</p>
+                    </div>
+                    <i class="fab fa-instagram text-purple-500 text-3xl"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Klipper - Profesyonel Klip Üretimi{% endblock %}</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <style>
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .hover-scale {
+            transition: transform 0.3s ease;
+        }
+        
+        .hover-scale:hover {
+            transform: scale(1.05);
+        }
+        
+        .shadow-soft {
+            box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 5px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+    </style>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#667eea',
+                        secondary: '#764ba2',
+                        dark: '#1a1a2e',
+                        light: '#f8f9fa'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50 text-gray-800">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex items-center">
+                    <a href="{{ url_for('index') }}" class="flex items-center space-x-3">
+                        <div class="w-14 h-14 gradient-bg rounded-xl flex items-center justify-center shadow-lg">
+                            <span class="text-white text-3xl font-bold">K</span>
+                        </div>
+                        <span class="text-3xl font-bold gradient-text">Klipper</span>
+                    </a>
+                </div>
+                
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center space-x-8">
+                    {% if current_user.is_authenticated %}
+                        {% if current_user.is_admin %}
+                            <a href="{{ url_for('admin_dashboard') }}" class="text-gray-600 hover:text-primary transition-colors font-medium">
+                                <i class="fas fa-chart-line mr-2"></i>Dashboard
+                            </a>
+                            <a href="{{ url_for('add_task') }}" class="text-gray-600 hover:text-primary transition-colors font-medium">
+                                <i class="fas fa-tasks mr-2"></i>Görevler
+                            </a>
+                            <a href="{{ url_for('admin_submissions') }}" class="text-gray-600 hover:text-primary transition-colors font-medium">
+                                <i class="fas fa-video mr-2"></i>Gönderimler
+                            </a>
+                            <a href="{{ url_for('admin_users') }}" class="text-gray-600 hover:text-primary transition-colors font-medium">
+                                <i class="fas fa-users mr-2"></i>Kullanıcılar
+                            </a>
+                        {% else %}
+                            <a href="{{ url_for('clipper_tasks') }}" class="text-gray-600 hover:text-primary transition-colors font-medium">
+                                <i class="fas fa-tasks mr-2"></i>Görevler
+                            </a>
+                            <a href="{{ url_for('clipper_dashboard') }}" class="text-gray-600 hover:text-primary transition-colors font-medium">
+                                <i class="fas fa-user-circle mr-2"></i>Profilim
+                            </a>
+                        {% endif %}
+                        
+                        <div class="flex items-center space-x-4 ml-8">
+                            <span class="text-gray-500 text-sm">{{ current_user.username }}</span>
+                            <a href="{{ url_for('logout') }}" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition-colors text-sm font-medium">
+                                <i class="fas fa-sign-out-alt mr-2"></i>Çıkış
+                            </a>
+                        </div>
+                    {% else %}
+                        <a href="{{ url_for('login') }}" class="text-gray-600 hover:text-primary transition-colors font-medium">
+                            Giriş Yap
+                        </a>
+                        <a href="{{ url_for('register') }}" class="gradient-bg text-white px-6 py-2 rounded-lg hover-scale font-medium">
+                            Ücretsiz Başla
+                        </a>
+                    {% endif %}
+                </div>
+                
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden">
+                    <button id="mobile-menu-btn" class="text-gray-600 hover:text-primary p-2">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Mobile Menu -->
+            <div id="mobile-menu" class="hidden md:hidden py-4">
+                <div class="space-y-2">
+                    {% if current_user.is_authenticated %}
+                        {% if current_user.is_admin %}
+                            <a href="{{ url_for('admin_dashboard') }}" class="block px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg">
+                                <i class="fas fa-chart-line mr-2"></i>Dashboard
+                            </a>
+                            <a href="{{ url_for('add_task') }}" class="block px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg">
+                                <i class="fas fa-tasks mr-2"></i>Görevler
+                            </a>
+                            <a href="{{ url_for('admin_submissions') }}" class="block px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg">
+                                <i class="fas fa-video mr-2"></i>Gönderimler
+                            </a>
+                            <a href="{{ url_for('admin_users') }}" class="block px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg">
+                                <i class="fas fa-users mr-2"></i>Kullanıcılar
+                            </a>
+                        {% else %}
+                            <a href="{{ url_for('clipper_tasks') }}" class="block px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg">
+                                <i class="fas fa-tasks mr-2"></i>Görevler
+                            </a>
+                            <a href="{{ url_for('clipper_dashboard') }}" class="block px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg">
+                                <i class="fas fa-user-circle mr-2"></i>Profilim
+                            </a>
+                        {% endif %}
+                        <hr class="my-2">
+                        <div class="px-4 py-2 text-gray-500 text-sm">{{ current_user.username }}</div>
+                        <a href="{{ url_for('logout') }}" class="block px-4 py-2 text-red-600 hover:bg-red-50 rounded-lg">
+                            <i class="fas fa-sign-out-alt mr-2"></i>Çıkış
+                        </a>
+                    {% else %}
+                        <a href="{{ url_for('login') }}" class="block px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg">
+                            Giriş Yap
+                        </a>
+                        <a href="{{ url_for('register') }}" class="block px-4 py-2 text-white gradient-bg rounded-lg text-center">
+                            Ücretsiz Başla
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="fixed top-20 right-4 z-50 space-y-2">
+                {% for category, message in messages %}
+                    <div class="bg-white shadow-lg rounded-lg p-4 flex items-center space-x-3 animate-slide-in
+                        {% if category == 'error' %}border-l-4 border-red-500
+                        {% elif category == 'success' %}border-l-4 border-green-500
+                        {% elif category == 'info' %}border-l-4 border-blue-500
+                        {% else %}border-l-4 border-gray-500{% endif %}">
+                        <div>
+                            {% if category == 'error' %}
+                                <i class="fas fa-exclamation-circle text-red-500 text-xl"></i>
+                            {% elif category == 'success' %}
+                                <i class="fas fa-check-circle text-green-500 text-xl"></i>
+                            {% elif category == 'info' %}
+                                <i class="fas fa-info-circle text-blue-500 text-xl"></i>
+                            {% else %}
+                                <i class="fas fa-bell text-gray-500 text-xl"></i>
+                            {% endif %}
+                        </div>
+                        <div class="flex-1">
+                            <p class="text-gray-800">{{ message }}</p>
+                        </div>
+                        <button onclick="this.parentElement.remove()" class="text-gray-400 hover:text-gray-600">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    <!-- Main Content -->
+    <main class="min-h-screen">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12 mt-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <!-- Logo and Description -->
+                <div class="col-span-1 md:col-span-2">
+                    <div class="flex items-center space-x-3 mb-4">
+                        <div class="w-10 h-10 bg-white rounded-lg flex items-center justify-center">
+                            <i class="fas fa-cut gradient-text text-xl"></i>
+                        </div>
+                        <span class="text-2xl font-bold">Klipper</span>
+                    </div>
+                    <p class="text-gray-400 mb-4">
+                        Streamerlar ve içerik üreticileri için profesyonel klip üretim platformu. 
+                        Viral içerikler oluşturun, para kazanın.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fab fa-twitter text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fab fa-instagram text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fab fa-youtube text-xl"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Quick Links -->
+                <div>
+                    <h3 class="font-semibold text-lg mb-4">Hızlı Linkler</h3>
+                    <ul class="space-y-2">
+                        <li><a href="{{ url_for('index') }}" class="text-gray-400 hover:text-white transition-colors">Ana Sayfa</a></li>
+                        <li><a href="#features" class="text-gray-400 hover:text-white transition-colors">Özellikler</a></li>
+                        <li><a href="#how-it-works" class="text-gray-400 hover:text-white transition-colors">Nasıl Çalışır</a></li>
+                        <li><a href="{{ url_for('privacy_policy') }}" class="text-gray-400 hover:text-white transition-colors">Gizlilik Politikası</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Contact -->
+                <div>
+                    <h3 class="font-semibold text-lg mb-4">İletişim</h3>
+                    <ul class="space-y-2">
+                        <li class="text-gray-400">
+                            <i class="fas fa-envelope mr-2"></i>
+                            <a href="mailto:yasin4161trabzon@gmail.com" class="hover:text-white transition-colors">
+                                yasin4161trabzon@gmail.com
+                            </a>
+                        </li>
+                        <li class="text-gray-400">
+                            <i class="fas fa-globe mr-2"></i>
+                            klipper.com.tr
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <hr class="border-gray-800 my-8">
+            
+            <div class="text-center text-gray-400">
+                <p>&copy; 2025 Klipper. Tüm hakları saklıdır.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // Mobile menu toggle
+        document.getElementById('mobile-menu-btn').addEventListener('click', function() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        });
+        
+        // Auto-hide flash messages
+        setTimeout(() => {
+            const messages = document.querySelectorAll('.animate-slide-in');
+            messages.forEach(msg => {
+                msg.style.animation = 'slideOut 0.5s ease-out forwards';
+                setTimeout(() => msg.remove(), 500);
+            });
+        }, 5000);
+    </script>
+    
+    <style>
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes slideOut {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+        }
+        
+        .animate-slide-in {
+            animation: slideIn 0.5s ease-out;
+        }
+    </style>
+</body>
+</html>

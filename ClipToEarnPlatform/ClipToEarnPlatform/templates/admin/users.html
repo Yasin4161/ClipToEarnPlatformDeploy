@@ -1,0 +1,142 @@
+{% extends "base.html" %}
+
+{% block title %}Kullanıcılar - Admin Panel{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="mb-8">
+        <h1 class="text-3xl font-bold text-twitch-text">Kullanıcılar</h1>
+        <p class="text-twitch-muted mt-2">Tüm kayıtlı kullanıcıları görüntüleyin</p>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div class="bg-twitch-secondary p-6 rounded-lg border border-twitch-accent">
+            <div class="flex items-center">
+                <div class="p-3 bg-twitch-purple rounded-full">
+                    <i class="fas fa-users text-xl text-white"></i>
+                </div>
+                <div class="ml-4">
+                    <h3 class="text-2xl font-bold text-twitch-text">{{ users|length }}</h3>
+                    <p class="text-twitch-muted">Toplam Kullanıcı</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-twitch-secondary p-6 rounded-lg border border-twitch-accent">
+            <div class="flex items-center">
+                <div class="p-3 bg-green-600 rounded-full">
+                    <i class="fas fa-user-shield text-xl text-white"></i>
+                </div>
+                <div class="ml-4">
+                    <h3 class="text-2xl font-bold text-twitch-text">{{ users|selectattr('is_admin')|list|length }}</h3>
+                    <p class="text-twitch-muted">Admin Kullanıcı</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-twitch-secondary p-6 rounded-lg border border-twitch-accent">
+            <div class="flex items-center">
+                <div class="p-3 bg-blue-600 rounded-full">
+                    <i class="fas fa-user-check text-xl text-white"></i>
+                </div>
+                <div class="ml-4">
+                    <h3 class="text-2xl font-bold text-twitch-text">{{ users|selectattr('consent_given')|list|length }}</h3>
+                    <p class="text-twitch-muted">KVKK Onayı Veren</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Users Table -->
+    <div class="bg-twitch-secondary rounded-lg shadow overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-twitch-accent">
+                <thead class="bg-twitch-accent">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-twitch-muted uppercase tracking-wider">
+                            Kullanıcı
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-twitch-muted uppercase tracking-wider">
+                            İletişim
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-twitch-muted uppercase tracking-wider">
+                            Ödeme Bilgileri
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-twitch-muted uppercase tracking-wider">
+                            Durum
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-twitch-muted uppercase tracking-wider">
+                            Kayıt Tarihi
+                        </th>
+                    </tr>
+                </thead>
+                <tbody class="bg-twitch-secondary divide-y divide-twitch-accent">
+                    {% for user in users %}
+                    <tr class="hover:bg-twitch-accent transition-colors">
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0 h-10 w-10">
+                                    <div class="h-10 w-10 rounded-full bg-twitch-purple flex items-center justify-center">
+                                        <i class="fas fa-user text-white"></i>
+                                    </div>
+                                </div>
+                                <div class="ml-4">
+                                    <div class="text-sm font-medium text-twitch-text">{{ user.username }}</div>
+                                    <div class="text-sm text-twitch-muted">{{ user.full_name or 'Belirtilmemiş' }}</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm text-twitch-text">{{ user.email }}</div>
+                            {% if user.consent_ip %}
+                            <div class="text-sm text-twitch-muted">IP: {{ user.consent_ip }}</div>
+                            {% endif %}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            {% if user.decrypted_iban %}
+                            <div class="text-sm text-twitch-text">
+                                <i class="fas fa-university mr-1"></i>
+                                IBAN: {{ user.decrypted_iban }}
+                            </div>
+                            {% else %}
+                            <div class="text-sm text-twitch-muted">IBAN belirtilmemiş</div>
+                            {% endif %}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="flex flex-col space-y-1">
+                                {% if user.is_admin %}
+                                <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-red-900 text-red-100">
+                                    <i class="fas fa-shield-alt mr-1"></i>Admin
+                                </span>
+                                {% endif %}
+                                {% if user.consent_given %}
+                                <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-green-900 text-green-100">
+                                    <i class="fas fa-check mr-1"></i>KVKK Onayı
+                                </span>
+                                {% else %}
+                                <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-yellow-900 text-yellow-100">
+                                    <i class="fas fa-exclamation mr-1"></i>KVKK Bekliyor
+                                </span>
+                                {% endif %}
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm text-twitch-text">{{ user.created_at.strftime('%d.%m.%Y') }}</div>
+                            <div class="text-sm text-twitch-muted">{{ user.created_at.strftime('%H:%M') }}</div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    {% if users|length == 0 %}
+    <div class="text-center py-8">
+        <i class="fas fa-users text-4xl text-twitch-muted mb-4"></i>
+        <p class="text-twitch-muted">Henüz kayıtlı kullanıcı bulunmuyor.</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

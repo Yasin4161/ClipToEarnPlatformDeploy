@@ -1,0 +1,173 @@
+{% extends "base.html" %}
+
+{% block title %}Klipper - Viral İçerik Üret, Para Kazan{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="relative overflow-hidden">
+    <div class="gradient-bg py-24 px-4">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center text-white">
+                <h1 class="text-5xl md:text-6xl font-bold mb-6 animate-fade-in">
+                    Viral Klipler Oluştur,<br>
+                    <span class="text-yellow-300">Para Kazan</span>
+                </h1>
+                <p class="text-xl md:text-2xl mb-8 text-gray-200 max-w-3xl mx-auto">
+                    Streamerların içeriklerinden kısa klipler oluşturun, sosyal medyada paylaşın ve görüntüleme başına kazanç elde edin.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <a href="{{ url_for('register') }}" class="bg-white text-primary px-8 py-4 rounded-lg font-semibold hover-scale text-lg">
+                        <i class="fas fa-rocket mr-2"></i>Hemen Başla
+                    </a>
+                    <a href="#how-it-works" class="bg-transparent border-2 border-white text-white px-8 py-4 rounded-lg font-semibold hover:bg-white hover:text-primary transition-all text-lg">
+                        <i class="fas fa-play-circle mr-2"></i>Nasıl Çalışır?
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Wave Shape -->
+    <div class="absolute bottom-0 left-0 right-0">
+        <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0 120L60 105C120 90 240 60 360 45C480 30 600 30 720 37.5C840 45 960 60 1080 67.5C1200 75 1320 75 1380 75L1440 75V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0Z" fill="#f9fafb"/>
+        </svg>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section id="features" class="py-20 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+            <h2 class="text-4xl font-bold mb-4 gradient-text">Neden Klipper?</h2>
+            <p class="text-xl text-gray-600">İçerik üreticileri için tasarlanmış güçlü özellikler</p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- Feature 1 -->
+            <div class="bg-white rounded-xl shadow-soft p-8 hover-scale">
+                <div class="w-16 h-16 gradient-bg rounded-lg flex items-center justify-center mb-6">
+                    <i class="fas fa-dollar-sign text-white text-2xl"></i>
+                </div>
+                <h3 class="text-2xl font-semibold mb-4">Yüksek Kazanç</h3>
+                <p class="text-gray-600">Her 1000 görüntüleme için garanti ödeme. Viral olan içeriklerle kazancınızı katlayın.</p>
+            </div>
+            
+            <!-- Feature 2 -->
+            <div class="bg-white rounded-xl shadow-soft p-8 hover-scale">
+                <div class="w-16 h-16 gradient-bg rounded-lg flex items-center justify-center mb-6">
+                    <i class="fas fa-share-alt text-white text-2xl"></i>
+                </div>
+                <h3 class="text-2xl font-semibold mb-4">Çoklu Platform</h3>
+                <p class="text-gray-600">YouTube Shorts, TikTok ve Instagram Reels'e aynı anda yükleyin, erişiminizi maksimize edin.</p>
+            </div>
+            
+            <!-- Feature 3 -->
+            <div class="bg-white rounded-xl shadow-soft p-8 hover-scale">
+                <div class="w-16 h-16 gradient-bg rounded-lg flex items-center justify-center mb-6">
+                    <i class="fas fa-shield-alt text-white text-2xl"></i>
+                </div>
+                <h3 class="text-2xl font-semibold mb-4">Güvenli Ödeme</h3>
+                <p class="text-gray-600">KVKK uyumlu, şifreli IBAN sistemi ile güvenli ve hızlı ödemeler.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- How It Works Section -->
+<section id="how-it-works" class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+            <h2 class="text-4xl font-bold mb-4 gradient-text">Nasıl Çalışır?</h2>
+            <p class="text-xl text-gray-600">3 basit adımda kazanmaya başlayın</p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- Step 1 -->
+            <div class="text-center">
+                <div class="relative">
+                    <div class="w-20 h-20 gradient-bg rounded-full flex items-center justify-center mx-auto mb-6">
+                        <span class="text-white text-2xl font-bold">1</span>
+                    </div>
+                    <div class="hidden md:block absolute top-10 left-full w-full h-0.5 bg-gradient-to-r from-primary to-secondary"></div>
+                </div>
+                <h3 class="text-2xl font-semibold mb-4">Görev Seçin</h3>
+                <p class="text-gray-600">Yayıncıların stream kayıtlarından size uygun görevleri seçin.</p>
+            </div>
+            
+            <!-- Step 2 -->
+            <div class="text-center">
+                <div class="relative">
+                    <div class="w-20 h-20 gradient-bg rounded-full flex items-center justify-center mx-auto mb-6">
+                        <span class="text-white text-2xl font-bold">2</span>
+                    </div>
+                    <div class="hidden md:block absolute top-10 left-full w-full h-0.5 bg-gradient-to-r from-primary to-secondary"></div>
+                </div>
+                <h3 class="text-2xl font-semibold mb-4">Klip Oluşturun</h3>
+                <p class="text-gray-600">Yaratıcı klipier oluşturun ve sosyal medya platformlarında paylaşın.</p>
+            </div>
+            
+            <!-- Step 3 -->
+            <div class="text-center">
+                <div class="w-20 h-20 gradient-bg rounded-full flex items-center justify-center mx-auto mb-6">
+                    <span class="text-white text-2xl font-bold">3</span>
+                </div>
+                <h3 class="text-2xl font-semibold mb-4">Para Kazanın</h3>
+                <p class="text-gray-600">Görüntüleme sayınıza göre otomatik olarak kazanç elde edin.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Stats Section -->
+<section class="py-20 gradient-bg">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8 text-center text-white">
+            <div>
+                <div class="text-5xl font-bold mb-2">1000+</div>
+                <div class="text-xl">Aktif Clipper</div>
+            </div>
+            <div>
+                <div class="text-5xl font-bold mb-2">50K+</div>
+                <div class="text-xl">Oluşturulan Klip</div>
+            </div>
+            <div>
+                <div class="text-5xl font-bold mb-2">10M+</div>
+                <div class="text-xl">Toplam Görüntüleme</div>
+            </div>
+            <div>
+                <div class="text-5xl font-bold mb-2">₺250K+</div>
+                <div class="text-xl">Ödenen Tutar</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-20 bg-gray-50">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h2 class="text-4xl font-bold mb-4">Hemen Başlayın!</h2>
+        <p class="text-xl text-gray-600 mb-8">Ücretsiz kayıt olun ve ilk klibinizi oluşturun</p>
+        <a href="{{ url_for('register') }}" class="gradient-bg text-white px-8 py-4 rounded-lg font-semibold hover-scale text-lg inline-block">
+            <i class="fas fa-user-plus mr-2"></i>Ücretsiz Kayıt Ol
+        </a>
+    </div>
+</section>
+
+<style>
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    .animate-fade-in {
+        animation: fadeIn 1s ease-out;
+    }
+</style>
+{% endblock %}

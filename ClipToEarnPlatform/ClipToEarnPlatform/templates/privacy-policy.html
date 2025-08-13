@@ -1,0 +1,270 @@
+{% extends "base.html" %}
+
+{% block title %}Gizlilik Politikası - ClipToEarn{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto">
+    <div class="mb-8">
+        <h1 class="text-3xl md:text-4xl font-bold text-twitch-text mb-4">
+            <i class="fas fa-shield-alt mr-3"></i>Gizlilik Politikası
+        </h1>
+        <p class="text-twitch-muted text-lg">
+            Son güncelleme: 15 Temmuz 2025 | KVKK ve GDPR uyumlu
+        </p>
+    </div>
+
+    <div class="bg-twitch-secondary rounded-lg border border-twitch-accent p-6 mb-8">
+        <div class="flex items-start">
+            <i class="fas fa-info-circle text-twitch-purple text-xl mr-3 mt-1"></i>
+            <div>
+                <h3 class="text-twitch-text font-semibold mb-2">Önemli Bilgilendirme</h3>
+                <p class="text-twitch-muted">
+                    Bu gizlilik politikası, ClipToEarn platformunda kişisel verilerinizin nasıl toplandığı, işlendiği ve korunduğu hakkında bilgi verir. 
+                    Kişisel Verilerin Korunması Kanunu (KVKK) ve Genel Veri Koruma Yönetmeliği (GDPR) kapsamında hazırlanmıştır.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="space-y-8">
+        <!-- Data Controller -->
+        <section class="bg-twitch-secondary rounded-lg border border-twitch-accent p-6">
+            <h2 class="text-xl font-semibold text-twitch-text mb-4">
+                <i class="fas fa-building mr-2"></i>Veri Sorumlusu
+            </h2>
+            <div class="text-twitch-muted space-y-2">
+                <p><strong>Platform:</strong> ClipToEarn</p>
+                <p><strong>İletişim:</strong> yasin4161trabzon@gmail.com</p>
+                <p><strong>Sorumlu:</strong> Yasin Özdin</p>
+                <p>Kişisel verilerinizin işlenme amaçları ve yöntemleri hakkında karar veren veri sorumlusu olarak faaliyet gösterilmektedir.</p>
+            </div>
+        </section>
+
+        <!-- Data Processing -->
+        <section class="bg-twitch-secondary rounded-lg border border-twitch-accent p-6">
+            <h2 class="text-xl font-semibold text-twitch-text mb-4">
+                <i class="fas fa-database mr-2"></i>Toplanan Veriler ve İşlenme Amaçları
+            </h2>
+            <div class="overflow-x-auto">
+                <table class="w-full border-collapse">
+                    <thead>
+                        <tr class="border-b border-twitch-accent">
+                            <th class="text-left py-3 px-4 text-twitch-text font-semibold">Veri Türü</th>
+                            <th class="text-left py-3 px-4 text-twitch-text font-semibold">İşlenme Amacı</th>
+                            <th class="text-left py-3 px-4 text-twitch-text font-semibold">Hukuki Dayanak</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-twitch-muted">
+                        <tr class="border-b border-twitch-accent">
+                            <td class="py-3 px-4"><strong>Kimlik Bilgileri</strong><br>Ad, soyad, kullanıcı adı</td>
+                            <td class="py-3 px-4">Hesap oluşturma, kullanıcı tanımlama</td>
+                            <td class="py-3 px-4">Açık rıza, sözleşme</td>
+                        </tr>
+                        <tr class="border-b border-twitch-accent">
+                            <td class="py-3 px-4"><strong>İletişim Bilgileri</strong><br>E-posta adresi</td>
+                            <td class="py-3 px-4">Hesap doğrulama, bildirimler</td>
+                            <td class="py-3 px-4">Açık rıza, sözleşme</td>
+                        </tr>
+                        <tr class="border-b border-twitch-accent">
+                            <td class="py-3 px-4"><strong>Finansal Bilgiler</strong><br>IBAN (şifrelenmiş)</td>
+                            <td class="py-3 px-4">Ödeme işlemleri, kazanç aktarımı</td>
+                            <td class="py-3 px-4">Açık rıza, sözleşme</td>
+                        </tr>
+                        <tr class="border-b border-twitch-accent">
+                            <td class="py-3 px-4"><strong>Teknik Bilgiler</strong><br>IP adresi, tarayıcı bilgisi</td>
+                            <td class="py-3 px-4">Güvenlik, performans analizi</td>
+                            <td class="py-3 px-4">Meşru menfaat</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4"><strong>İçerik Bilgileri</strong><br>Klip linkleri, açıklamalar</td>
+                            <td class="py-3 px-4">Hizmet sunumu, değerlendirme</td>
+                            <td class="py-3 px-4">Sözleşme</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Data Security -->
+        <section class="bg-twitch-secondary rounded-lg border border-twitch-accent p-6">
+            <h2 class="text-xl font-semibold text-twitch-text mb-4">
+                <i class="fas fa-lock mr-2"></i>Veri Güvenliği
+            </h2>
+            <div class="grid md:grid-cols-2 gap-4">
+                <div>
+                    <h3 class="text-twitch-text font-medium mb-2">Teknik Güvenlik</h3>
+                    <ul class="text-twitch-muted space-y-1 text-sm">
+                        <li><i class="fas fa-check text-green-400 mr-2"></i>AES şifreleme (IBAN verileri)</li>
+                        <li><i class="fas fa-check text-green-400 mr-2"></i>Şifre hash'leme (bcrypt)</li>
+                        <li><i class="fas fa-check text-green-400 mr-2"></i>HTTPS bağlantısı</li>
+                        <li><i class="fas fa-check text-green-400 mr-2"></i>Güvenli veritabanı</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-twitch-text font-medium mb-2">Organizasyonel Güvenlik</h3>
+                    <ul class="text-twitch-muted space-y-1 text-sm">
+                        <li><i class="fas fa-check text-green-400 mr-2"></i>Sınırlı erişim kontrolü</li>
+                        <li><i class="fas fa-check text-green-400 mr-2"></i>Düzenli güvenlik güncellemeleri</li>
+                        <li><i class="fas fa-check text-green-400 mr-2"></i>Veri minimizasyonu</li>
+                        <li><i class="fas fa-check text-green-400 mr-2"></i>Güvenlik ihlali bildirimi</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- User Rights -->
+        <section class="bg-twitch-secondary rounded-lg border border-twitch-accent p-6">
+            <h2 class="text-xl font-semibold text-twitch-text mb-4">
+                <i class="fas fa-user-shield mr-2"></i>Kullanıcı Hakları
+            </h2>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div>
+                    <h3 class="text-twitch-text font-medium mb-3">Temel Haklarınız</h3>
+                    <div class="space-y-3">
+                        <div class="flex items-start">
+                            <i class="fas fa-eye text-twitch-purple mr-3 mt-1"></i>
+                            <div>
+                                <h4 class="text-twitch-text font-medium">Bilgi Talep Etme</h4>
+                                <p class="text-twitch-muted text-sm">Hangi verilerinizin işlendiğini öğrenebilirsiniz.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <i class="fas fa-edit text-twitch-purple mr-3 mt-1"></i>
+                            <div>
+                                <h4 class="text-twitch-text font-medium">Düzeltme</h4>
+                                <p class="text-twitch-muted text-sm">Yanlış verilerin düzeltilmesini isteyebilirsiniz.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <i class="fas fa-trash text-twitch-purple mr-3 mt-1"></i>
+                            <div>
+                                <h4 class="text-twitch-text font-medium">Silme</h4>
+                                <p class="text-twitch-muted text-sm">Verilerinizin silinmesini talep edebilirsiniz.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-twitch-text font-medium mb-3">Ek Haklar</h3>
+                    <div class="space-y-3">
+                        <div class="flex items-start">
+                            <i class="fas fa-download text-twitch-purple mr-3 mt-1"></i>
+                            <div>
+                                <h4 class="text-twitch-text font-medium">Veri Taşınabilirliği</h4>
+                                <p class="text-twitch-muted text-sm">Verilerinizi başka bir platforma aktarabilirsiniz.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <i class="fas fa-ban text-twitch-purple mr-3 mt-1"></i>
+                            <div>
+                                <h4 class="text-twitch-text font-medium">İşlemeye İtiraz</h4>
+                                <p class="text-twitch-muted text-sm">Veri işleme faaliyetine itiraz edebilirsiniz.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <i class="fas fa-times-circle text-twitch-purple mr-3 mt-1"></i>
+                            <div>
+                                <h4 class="text-twitch-text font-medium">Rızayı Geri Çekme</h4>
+                                <p class="text-twitch-muted text-sm">Verdiğiniz rızayı istediğiniz zaman geri alabilirsiniz.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Data Retention -->
+        <section class="bg-twitch-secondary rounded-lg border border-twitch-accent p-6">
+            <h2 class="text-xl font-semibold text-twitch-text mb-4">
+                <i class="fas fa-clock mr-2"></i>Veri Saklama Süresi
+            </h2>
+            <div class="text-twitch-muted space-y-3">
+                <p>Kişisel verileriniz aşağıdaki sürelerde saklanır:</p>
+                <ul class="space-y-2 ml-4">
+                    <li><strong>Hesap Bilgileri:</strong> Hesap aktif olduğu süre + 3 yıl</li>
+                    <li><strong>Finansal Bilgiler:</strong> Yasal yükümlülükler gereği 10 yıl</li>
+                    <li><strong>İçerik Bilgileri:</strong> Hizmet sunumu için gerekli süre</li>
+                    <li><strong>Teknik Loglar:</strong> Güvenlik amaçlı 2 yıl</li>
+                </ul>
+                <p class="text-sm bg-twitch-accent p-3 rounded">
+                    <i class="fas fa-info-circle mr-2"></i>
+                    Hesabınızı sildiğinizde, yasal yükümlülükler dışındaki tüm verileriniz 30 gün içinde silinir.
+                </p>
+            </div>
+        </section>
+
+        <!-- Cookies -->
+        <section class="bg-twitch-secondary rounded-lg border border-twitch-accent p-6">
+            <h2 class="text-xl font-semibold text-twitch-text mb-4">
+                <i class="fas fa-cookie-bite mr-2"></i>Çerez Politikası
+            </h2>
+            <div class="text-twitch-muted space-y-3">
+                <p>Platformumuz aşağıdaki çerez türlerini kullanır:</p>
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div>
+                        <h4 class="text-twitch-text font-medium mb-2">Zorunlu Çerezler</h4>
+                        <ul class="text-sm space-y-1">
+                            <li>• Oturum yönetimi</li>
+                            <li>• Güvenlik</li>
+                            <li>• Temel işlevsellik</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="text-twitch-text font-medium mb-2">Analitik Çerezler</h4>
+                        <ul class="text-sm space-y-1">
+                            <li>• Kullanım istatistikleri</li>
+                            <li>• Performans analizi</li>
+                            <li>• Hata raporlama</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact -->
+        <section class="bg-twitch-secondary rounded-lg border border-twitch-accent p-6">
+            <h2 class="text-xl font-semibold text-twitch-text mb-4">
+                <i class="fas fa-envelope mr-2"></i>İletişim ve Şikayetler
+            </h2>
+            <div class="text-twitch-muted space-y-3">
+                <p>Gizlilik hakları konusunda bizimle iletişime geçebilirsiniz:</p>
+                <div class="bg-twitch-accent p-4 rounded">
+                    <p><strong>E-posta:</strong> yasin4161trabzon@gmail.com</p>
+                    <p><strong>Yanıt Süresi:</strong> 30 gün (yasal süre)</p>
+                    <p><strong>Şikayet:</strong> Kişisel Verileri Koruma Kurulu'na başvurabilirsiniz</p>
+                </div>
+                <p class="text-sm">
+                    <i class="fas fa-gavel mr-2"></i>
+                    Haklarınızın ihlal edildiğini düşünüyorsanız, Kişisel Verileri Koruma Kurulu'na şikayette bulunabilirsiniz.
+                </p>
+            </div>
+        </section>
+
+        <!-- Updates -->
+        <section class="bg-twitch-secondary rounded-lg border border-twitch-accent p-6">
+            <h2 class="text-xl font-semibold text-twitch-text mb-4">
+                <i class="fas fa-sync mr-2"></i>Politika Güncellemeleri
+            </h2>
+            <div class="text-twitch-muted space-y-3">
+                <p>Bu gizlilik politikası gerekli durumlarda güncellenebilir. Önemli değişiklikler:</p>
+                <ul class="space-y-1 ml-4">
+                    <li>• E-posta ile bildirilir</li>
+                    <li>• Platform üzerinden duyurulur</li>
+                    <li>• Yeni koşullar için rıza alınır</li>
+                </ul>
+                <p class="text-sm bg-twitch-accent p-3 rounded">
+                    <i class="fas fa-calendar mr-2"></i>
+                    Son güncelleme: 15 Temmuz 2025 | Versiyon: 1.0
+                </p>
+            </div>
+        </section>
+    </div>
+
+    <!-- Back to Registration -->
+    <div class="mt-8 text-center">
+        <a href="javascript:history.back()" class="bg-twitch-purple hover:bg-twitch-purpleDark text-white px-6 py-3 rounded-lg font-semibold transition-colors">
+            <i class="fas fa-arrow-left mr-2"></i>Geri Dön
+        </a>
+    </div>
+</div>
+{% endblock %}
